@@ -1,0 +1,61 @@
+library ieee;
+	use ieee.std_logic_1164.all;
+	--use ieee.numeric_std.all;
+
+entity sixteen_bit_adder is
+
+	port(
+		cin : in std_logic;
+		a, b : in std_logic_vector(15 downto 0);
+		s : out std_logic_vector(15 downto 0);
+		cout : out std_logic
+	);
+
+end entity;
+
+architecture struct of sixteen_bit_adder is
+
+	component full_adder is
+		port(
+			a, b, cin : in std_logic;
+			s, cout : out std_logic
+		);
+	end component full_adder;
+	
+	signal cvec : std_logic_vector(14 downto 0);
+
+begin
+
+	f0 : full_adder port map(a(0) => a, b(0) => b, cin => cin, s(0) => s, cout => cvec(0));
+	
+	f1 : full_adder port map(a(1) => a, b(1) => b, cin => cvec(0), s(1) => s, cout => cvec(1));
+	
+	f2 : full_adder port map(a(2) => a, b(2) => b, cin => cvec(1), s(2) => s, cout => cvec(2));
+	
+	f3 : full_adder port map(a(3) => a, b(3) => b, cin => cvec(2), s(3) => s, cout => cvec(3));
+	
+	f4 : full_adder port map(a(4) => a, b(4) => b, cin => cvec(3), s(4) => s, cout => cvec(4));
+	
+	f5 : full_adder port map(a(5) => a, b(5) => b, cin => cvec(4), s(5) => s, cout => cvec(5));
+	
+	f6 : full_adder port map(a(6) => a, b(6) => b, cin => cvec(5), s(6) => s, cout => cvec(6));
+	
+	f7 : full_adder port map(a(7) => a, b(7) => b, cin => cvec(6), s(7) => s, cout => cvec(7));
+	
+	f8 : full_adder port map(a(8) => a, b(8) => b, cin => cvec(7), s(8) => s, cout => cvec(8));
+	
+	f9 : full_adder port map(a(9) => a, b(9) => b, cin => cvec(8), s(9) => s, cout => cvec(9));
+	
+	f10 : full_adder port map(a(10) => a, b(10) => b, cin => cvec(9), s(10) => s, cout => cvec(10));
+	
+	f11 : full_adder port map(a(11) => a, b(11) => b, cin => cvec(10), s(11) => s, cout => cvec(11));
+	
+	f12 : full_adder port map(a(12) => a, b(12) => b, cin => cvec(11), s(12) => s, cout => cvec(12));
+	
+	f13 : full_adder port map(a(13) => a, b(13) => b, cin => cvec(12), s(13) => s, cout => cvec(13));
+	
+	f14 : full_adder port map(a(14) => a, b(14) => b, cin => cvec(13), s(14) => s, cout => cvec(14));
+	
+	f15 : full_adder port map(a(15) => a, b(15) => b, cin => cvec(14), s(15) => s, cout => cout);
+
+end architecture;

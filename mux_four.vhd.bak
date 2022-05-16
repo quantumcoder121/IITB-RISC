@@ -1,0 +1,33 @@
+library ieee;
+	use ieee.std_logic_1164.all;
+	use ieee.numeric_std.all;
+
+entity mux_four is
+	port(
+		i0, i1, i2, i3 : in std_logic_vector(15 downto 0);
+		output : out std_logic_vector(15 downto 0);
+		s0, s1 : in std_logic
+	);
+end entity;
+
+architecture behav of mux is
+
+begin
+
+	case s0 is
+
+		when '0' =>
+			case s1 is
+				when '0' => output <= i0;
+				when '1' => output <= i1;
+			end case;
+
+		when '1' =>
+			case s1 is
+				when '0' => output <= i2;
+				when '1' => output <= i3;
+			end case;
+	
+	end case;
+
+end architecture;
