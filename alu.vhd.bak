@@ -1,0 +1,80 @@
+library ieee;
+	use ieee.std_logic_1164.all;
+	--use ieee.numeric_std.all;
+
+entity alu is
+
+	port(
+		reset, cin, opsel : in std_logic;
+		alu_a, alu_b : in std_logic_vector(15 downto 0);
+		cout, zout : out std_logic;
+		output : out std_logic_vector(15 downto 0) := "0000000000000000"
+	);
+
+end entity;
+
+architecture struct of alu is
+
+	component sixteen_bit_adder is
+		port(
+			cin : in std_logic;
+			a, b : in std_logic_vector(15 downto 0);
+			s : out std_logic_vector(15 downto 0);
+			cout : out std_logic
+		);
+	end component sixteen_bit_adder;
+	
+	signal add_cout : std_logic;
+	signal add_out, nand_out : std_logic_vector(15 downto 0);
+
+begin
+	
+	add_unit : sixteen_bit_adder port map(cin => cin, a => alu_a, b => alu_b, s => add_out, cout => add_cout);
+	
+	nand_out(0) <= alu_a(0) nand alu_b(0);
+	
+	nand_out(1) <= alu_a(1) nand alu_b(1);
+	
+	nand_out(2) <= alu_a(2) nand alu_b(2);
+	
+	nand_out(3) <= alu_a(3) nand alu_b(3);
+	
+	nand_out(4) <= alu_a(4) nand alu_b(4);
+	
+	nand_out(5) <= alu_a(5) nand alu_b(5);
+	
+	nand_out(6) <= alu_a(6) nand alu_b(6);
+	
+	nand_out(7) <= alu_a(7) nand alu_b(7);
+	
+	nand_out(8) <= alu_a(8) nand alu_b(8);
+	
+	nand_out(9) <= alu_a(9) nand alu_b(9);
+	
+	nand_out(10) <= alu_a(10) nand alu_b(10);
+	
+	nand_out(11) <= alu_a(11) nand alu_b(11);
+	
+	nand_out(12) <= alu_a(12) nand alu_b(12);
+	
+	nand_out(13) <= alu_a(13) nand alu_b(13);
+	
+	nand_out(14) <= alu_a(14) nand alu_b(14);
+	
+	nand_out(15) <= alu_a(15) nand alu_b(15);
+	
+	if (opsel = '0') then
+		output <= add_out;
+		cout <= add_cout;
+	else
+		output <= nand_out;
+		cout <= cin;
+	end if;
+	
+	if (output = "0000000000000000") then
+		zout <= '1';
+	else
+		zout <= '0';
+	end if;
+	
+end architecture;

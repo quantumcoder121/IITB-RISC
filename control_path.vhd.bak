@@ -1,0 +1,97 @@
+library ieee;
+	use ieee.std_logic_1164.all;
+	--use ieee.numeric_std.all;
+
+entity mux_two is
+
+	port(
+		clk, reset : out std_logic;
+		rb_wr, rb_a2_sel, ir_wr, mem_wr, mem_a_sel, 
+			t1_wr, t2_wr, alu_op, alu_a_sel, t3_wr, alu_mod, zero_mod : out std_logic;
+		rb_a1_sel, alu_b_sel, rb_a3_sel, t2_din_sel : out std_logic_vector(1 downto 0);
+		rb_din_sel : out std_logic_vector(2 downto 0);
+		cy, eq, z : in std_logic;
+		instruction : in std_logic_vector(15 downto 0)
+
+end entity;
+
+architecture behav of mux_two is
+
+	type state is (S0, S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, S12, S13, S14, S15, S16, S17);
+	signal Q, nQ: state := S0;
+	signal opcode : std_logic_vector(3 downto 0);
+	signal T : std_logic_vector(15 downto 0);
+
+begin
+	
+	T(0) <= rb_wr;
+	T(1) <= rb_a2_sel;
+	T(2) <= rb_a2_sel;
+	
+	opcode <= instruction(15 downto 12);
+	
+	process (opcode, Q)
+	
+	begin
+
+		case Q is
+
+			when S0 => 
+				T <= "000 0000 0011 0000 0001 0100";
+				
+			when S1 => 
+				T <= "110 0011 0000 0001 0000 0001";
+				
+			when S2 => 
+				T <= "000 1100 0010 0000 0110 0010";
+				
+			when S3 => 
+				T <= "000 0000 0100 0010 0000 0000";
+				
+			when S4 => 
+				T <= "000 1000 0000 0000 0100 0000";
+				
+			when S5 => 
+				T <= "101 0010 0000 0000 0000 0001";
+				
+			when S6 => 
+				T <= "000 0100 0010 0000 0110 0000";
+				
+			when S7 => 
+				T <= "101 0001 0000 0000 0000 0001";
+				
+			when S8 => 
+				T <= "011 0000 0000 0000 0000 0001";
+				
+			when S9 => 
+				T <= "000 0000 0001 0000 0110 0000";
+				
+			when S10 => 
+				T <= "100 0000 0000 0000 0000 0001";
+				
+			when S11 => 
+				T <= "000 0000 0010 0000 0000 1000";
+				
+			when S12 => 
+				T <= "000 0000 0010 0000 0000 0010";
+				
+			when S13 => 
+				T <= "110 0011 1011 0001 0000 0001";
+				
+			when S14 => 
+				T <= "110 0011 1111 0001 0000 0001";
+				
+			when S15 => 
+				T <= "110 0000 0011 0001 0000 0001";
+				
+			when S16 => 
+				T <= "111 0011 0001 0000 0000 0001";
+				
+			when S17 => 
+				T <= "110 0011 1110 0001 0000 0001";
+				
+		end case;
+	
+	end process;
+
+end architecture;
